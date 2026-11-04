@@ -69,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private TextView tvFwScopeInfo;
     private MaterialButton btnSyncScope;
 
+    private TextView tvStatTargetsCount;
+    private TextView tvStatActiveCount;
+    private TextView tvStatStatusLabel;
+    private MaterialButton btnRandomAll;
+
     private View pageApps;
     private View pageEngine;
     private View pageLogs;
@@ -119,6 +124,14 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
         tvFwName = findViewById(R.id.tv_fw_name);
         tvFwScopeInfo = findViewById(R.id.tv_fw_scope_info);
         btnSyncScope = findViewById(R.id.btn_sync_scope);
+
+        tvStatTargetsCount = findViewById(R.id.tv_stat_targets_count);
+        tvStatActiveCount = findViewById(R.id.tv_stat_active_count);
+        tvStatStatusLabel = findViewById(R.id.tv_stat_status_label);
+        btnRandomAll = findViewById(R.id.btn_random_all);
+        if (btnRandomAll != null) {
+            btnRandomAll.setOnClickListener(v -> randomizeAllTargets());
+        }
 
         pageApps = findViewById(R.id.page_apps);
         pageEngine = findViewById(R.id.page_engine);
@@ -286,6 +299,68 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
             tvFwScopeInfo.setTextColor(0xFFF59E0B);
         }
         viewFwDot.setBackground(dot);
+        updateStatCards(connected, scopeSize);
+    }
+
+    private void updateStatCards(boolean connected, int scopeSize) {
+        if (tvStatTargetsCount != null) {
+            tvStatTargetsCount.setText(String.valueOf(targetAppItems.size()));
+        }
+        if (tvStatActiveCount != null) {
+            int activeTotal = 0;
+            for (TargetAppItem item : targetAppItems) {
+                if (item.isSpoofEnabled) {
+                    activeTotal += item.getActiveCount();
+                }
+            }
+            tvStatActiveCount.setText(String.valueOf(activeTotal));
+        }
+        if (tvStatStatusLabel != null) {
+            if (connected) {
+                tvStatStatusLabel.setText(isAr() ? "متصل" : "Connected");
+                tvStatStatusLabel.setTextColor(0xFF10B981);
+            } else if (scopeSize > 0) {
+                tvStatStatusLabel.setText(isAr() ? "نشط (DB)" : "Active (DB)");
+                tvStatStatusLabel.setTextColor(0xFF38BDF8);
+            } else {
+                tvStatStatusLabel.setText(isAr() ? "غير متصل" : "Not Active");
+                tvStatStatusLabel.setTextColor(0xFFF59E0B);
+            }
+        }
+    }
+
+    private void randomizeAllTargets() {
+        if (targetAppItems.isEmpty()) {
+            Toast.makeText(this, isAr() ? "لا توجد تطبيقات مستهدفة لتوليدها" : "No target apps to randomize", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        new AlertDialog.Builder(this)
+                .setTitle(isAr() ? "توليد قيم عشوائية للكل" : "Randomize All Targets")
+                .setMessage(isAr() ? "هل تريد توليد معرّفات عشوائية جديدة لجميع التطبيقات المضافة؟" : "Generate fresh random identities for all target applications?")
+                .setPositiveButton(isAr() ? "توليد الآن" : "Randomize", (dialog, which) -> {
+                    backgroundPool.execute(() -> {
+                        for (TargetAppItem item : targetAppItems) {
+                            if (item.identity == null) {
+                                item.identity = IdentityGenerator.generateRandom();
+                            } else {
+                                IdentityGenerator.randomizeEnabledOnly(item.identity);
+                            }
+                            item.isSpoofEnabled = true;
+                            Config.addTargetPackage(this, item.packageName);
+                            Config.setIdentity(this, item.packageName, item.identity.toJson());
+                            writeSentinelToApp(item.packageName, item.identity.toJson());
+                        }
+
+                        mainHandler.post(() -> {
+                            adapter.notifyDataSetChanged();
+                            updateStatCards(LSPosedScopeHelper.isConnected(), scopeCache.size());
+                            Toast.makeText(this, isAr() ? "تم توليد قيم جديدة لجميع التطبيقات بنجاح" : "All targets refreshed with new identities", Toast.LENGTH_SHORT).show();
+                        });
+                    });
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private void syncScope() {
@@ -355,6 +430,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
                 targetAppItems.clear();
                 targetAppItems.addAll(list);
                 adapter.setItems(targetAppItems);
+                updateStatCards(LSPosedScopeHelper.isConnected(), scopeCache.size());
 
                 boolean empty = targetAppItems.isEmpty();
                 layoutEmptyState.setVisibility(empty ? View.VISIBLE : View.GONE);
@@ -379,6 +455,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
         }
         item.isSpoofEnabled = enabled;
         adapter.notifyDataSetChanged();
+        updateStatCards(LSPosedScopeHelper.isConnected(), scopeCache.size());
     }
 
     @Override
@@ -392,6 +469,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
                     Config.setIdentity(this, item.packageName, updatedIdentity.toJson());
                     writeSentinelToApp(item.packageName, updatedIdentity.toJson());
                     adapter.notifyDataSetChanged();
+                    updateStatCards(LSPosedScopeHelper.isConnected(), scopeCache.size());
 
                     Snackbar.make(rvTargetApps, isAr() ? "تم حفظ إعدادات السبوف بنجاح" : "Spoof settings applied",
                             Snackbar.LENGTH_SHORT).show();
@@ -637,7 +715,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("DeviceReset Spoofer")
-                .setMessage("DeviceReset Spoofer X\nVersion 4.8.3\n\n"
+                .setMessage("DeviceReset Spoofer X\nVersion 4.8.4\n\n"
                         + "Advanced LSPosed Identity Virtualizer with Granular Spoof Control.\n"
                         + "GitHub: https://github.com/mohmedmarawan712-arch/DeviceResetSpoofer")
                 .setPositiveButton("OK", null)

@@ -130,6 +130,10 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
             if (listener != null) listener.onQuickRandom(item);
         });
 
+        holder.btnLaunch.setOnClickListener(v -> {
+            if (listener != null) listener.onLaunchApp(item);
+        });
+
         holder.btnDelete.setOnClickListener(v -> {
             if (listener != null) listener.onRemoveTarget(item);
         });
@@ -200,6 +204,7 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
         final TextView tvSummary;
         final MaterialButton btnCustomize;
         final MaterialButton btnQuickRandom;
+        final MaterialButton btnLaunch;
         final MaterialButton btnDelete;
         final MaterialButton btnMore;
 
@@ -214,6 +219,7 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
             tvSummary = itemView.findViewById(R.id.tv_active_items_summary);
             btnCustomize = itemView.findViewById(R.id.btn_customize_items);
             btnQuickRandom = itemView.findViewById(R.id.btn_quick_random);
+            btnLaunch = itemView.findViewById(R.id.btn_launch_app);
             btnDelete = itemView.findViewById(R.id.btn_delete_app);
             btnMore = itemView.findViewById(R.id.btn_more_menu);
         }

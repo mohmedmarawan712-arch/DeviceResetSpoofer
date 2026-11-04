@@ -58,6 +58,7 @@ public class AppPickerActivity extends AppCompatActivity {
     private String currentLang = "ar";
 
     private ImageButton btnBack;
+    private ImageButton btnClearSearch;
     private TextView tvCount;
     private EditText etSearch;
     private ProgressBar pbLoading;
@@ -94,6 +95,7 @@ public class AppPickerActivity extends AppCompatActivity {
 
     private void initViews() {
         btnBack = findViewById(R.id.btn_picker_back);
+        btnClearSearch = findViewById(R.id.btn_picker_clear);
         tvCount = findViewById(R.id.tv_count);
         etSearch = findViewById(R.id.et_picker_search);
         pbLoading = findViewById(R.id.pb_loading);
@@ -103,6 +105,10 @@ public class AppPickerActivity extends AppCompatActivity {
 
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> finish());
+        }
+
+        if (btnClearSearch != null) {
+            btnClearSearch.setOnClickListener(v -> etSearch.setText(""));
         }
 
         rvApps.setLayoutManager(new LinearLayoutManager(this));
@@ -115,6 +121,9 @@ public class AppPickerActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (btnClearSearch != null) {
+                    btnClearSearch.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
+                }
                 filter(s.toString());
             }
 
