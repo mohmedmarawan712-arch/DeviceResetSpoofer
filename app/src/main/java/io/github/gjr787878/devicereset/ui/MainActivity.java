@@ -83,7 +83,9 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private RecyclerView rvTargetApps;
     private View layoutEmptyState;
     private ExtendedFloatingActionButton fabAddApp;
-    private BottomNavigationView bottomNav;
+    private TextView tabHubApps;
+    private TextView tabHubEngine;
+    private TextView tabHubLogs;
 
     private TargetAppAdapter adapter;
     private final List<TargetAppItem> targetAppItems = new ArrayList<>();
@@ -142,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
         rvTargetApps = findViewById(R.id.rv_target_apps);
         layoutEmptyState = findViewById(R.id.layout_empty_state);
         fabAddApp = findViewById(R.id.fab_add_app);
-        bottomNav = findViewById(R.id.bottom_navigation);
 
         tvLogsContent = findViewById(R.id.tv_logs_content);
 
@@ -211,31 +212,42 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
             btnExportLogs.setOnClickListener(v -> exportLogs());
         }
 
-        // Bottom Navigation
-        bottomNav.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.nav_apps) {
-                pageApps.setVisibility(View.VISIBLE);
-                pageEngine.setVisibility(View.GONE);
-                pageLogs.setVisibility(View.GONE);
-                fabAddApp.show();
-                return true;
-            } else if (itemId == R.id.nav_engine) {
-                pageApps.setVisibility(View.GONE);
-                pageEngine.setVisibility(View.VISIBLE);
-                pageLogs.setVisibility(View.GONE);
-                fabAddApp.hide();
-                return true;
-            } else if (itemId == R.id.nav_logs) {
-                pageApps.setVisibility(View.GONE);
-                pageEngine.setVisibility(View.GONE);
-                pageLogs.setVisibility(View.VISIBLE);
-                fabAddApp.hide();
-                loadLogs();
-                return true;
-            }
-            return false;
-        });
+        // Segmented Top Hub Switcher
+        tabHubApps = findViewById(R.id.tab_hub_apps);
+        tabHubEngine = findViewById(R.id.tab_hub_engine);
+        tabHubLogs = findViewById(R.id.tab_hub_logs);
+
+        tabHubApps.setOnClickListener(v -> selectTab(0));
+        tabHubEngine.setOnClickListener(v -> selectTab(1));
+        tabHubLogs.setOnClickListener(v -> selectTab(2));
+    }
+
+    private void selectTab(int index) {
+        if (tabHubApps != null) {
+            tabHubApps.setBackgroundResource(index == 0 ? R.drawable.bg_pill_selected : R.drawable.bg_pill_unselected);
+            tabHubApps.setTextColor(index == 0 ? 0xFF0B0F19 : 0xFF94A3B8);
+        }
+        if (tabHubEngine != null) {
+            tabHubEngine.setBackgroundResource(index == 1 ? R.drawable.bg_pill_selected : R.drawable.bg_pill_unselected);
+            tabHubEngine.setTextColor(index == 1 ? 0xFF0B0F19 : 0xFF94A3B8);
+        }
+        if (tabHubLogs != null) {
+            tabHubLogs.setBackgroundResource(index == 2 ? R.drawable.bg_pill_selected : R.drawable.bg_pill_unselected);
+            tabHubLogs.setTextColor(index == 2 ? 0xFF0B0F19 : 0xFF94A3B8);
+        }
+
+        if (pageApps != null) pageApps.setVisibility(index == 0 ? View.VISIBLE : View.GONE);
+        if (pageEngine != null) pageEngine.setVisibility(index == 1 ? View.VISIBLE : View.GONE);
+        if (pageLogs != null) pageLogs.setVisibility(index == 2 ? View.VISIBLE : View.GONE);
+
+        if (fabAddApp != null) {
+            if (index == 0) fabAddApp.show();
+            else fabAddApp.hide();
+        }
+
+        if (index == 2) {
+            loadLogs();
+        }
     }
 
     private void openAppPicker() {
@@ -715,7 +727,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("DeviceReset Spoofer")
-                .setMessage("DeviceReset Spoofer X\nVersion 4.8.4\n\n"
+                .setMessage("DeviceReset Spoofer X\nVersion 4.9.0\n\n"
                         + "Advanced LSPosed Identity Virtualizer with Granular Spoof Control.\n"
                         + "GitHub: https://github.com/mohmedmarawan712-arch/DeviceResetSpoofer")
                 .setPositiveButton("OK", null)
