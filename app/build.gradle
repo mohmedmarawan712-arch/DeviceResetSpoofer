@@ -1,0 +1,90 @@
+plugins {
+    id 'com.android.application'
+}
+
+def keystorePath = System.getenv("DRS_KEYSTORE_PATH") ?: "keystore/devicereset-release.keystore"
+def keystorePass = System.getenv("DRS_KEYSTORE_PASS") ?: "DRS_Key_2026!"
+def keyFile = rootProject.file(keystorePath)
+
+if (!keyFile.exists()) {
+    try {
+        keyFile.parentFile.mkdirs()
+        def cmd = "keytool -genkeypair -v -keystore ${keyFile.absolutePath} -alias devicereset -keyalg RSA -keysize 2048 -validity 10000 -storepass ${keystorePass} -keypass ${keystorePass} -dname CN=DeviceResetSpoofer,OU=Mobile,O=DRS,C=US"
+        cmd.execute().waitFor()
+    } catch (Exception ignored) {
+    }
+}
+
+android {
+    namespace "io.github.gjr787878.devicereset"
+    compileSdk 36
+    ndkVersion "28.2.13676358"
+
+    defaultConfig {
+        applicationId "io.github.gjr787878.devicereset"
+        minSdk 26
+        targetSdk 34
+        versionCode 480
+        versionName "4.8.0"
+
+        externalNativeBuild {
+            cmake {
+                arguments "-DANDROID_STL=c++_static"
+            }
+        }
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
+        }
+    }
+
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+            version "3.22.1"
+        }
+    }
+
+    signingConfigs {
+        release {
+            if (keyFile.exists()) {
+                storeFile keyFile
+                storePassword keystorePass
+                keyAlias "devicereset"
+                keyPassword keystorePass
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            if (keyFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (keyFile.exists()) {
+                signingConfig signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    lint {
+        abortOnError false
+    }
+}
+
+dependencies {
+    compileOnly files('libs/api-82.jar')
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'io.github.libxposed:interface:101.0.0'
+    implementation 'io.github.libxposed:service:101.0.0'
+}

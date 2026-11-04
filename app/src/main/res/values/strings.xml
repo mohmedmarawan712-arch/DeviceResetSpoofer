@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DeviceReset Spoofer</string>
+    <string name="module_description">أداة متقدمة لتبديل وتزييف هويات الأجهزة وتخصيص معرّفات التطبيقات عبر LSPosed</string>
+
+    <!-- Granular Spoof Items -->
+    <string name="spoof_item_android_id">Android ID (SSAID)</string>
+    <string name="spoof_item_ad_id">Advertising ID (AAID) &amp; AppSet ID</string>
+    <string name="spoof_item_telephony">Telephony (IMEI / MEID / IMSI / ICCID)</string>
+    <string name="spoof_item_carrier">Carrier &amp; Network Info</string>
+    <string name="spoof_item_build">Device Model &amp; Build (Brand, Fingerprint)</string>
+    <string name="spoof_item_wifi">Wi-Fi MAC Address</string>
+    <string name="spoof_item_bluetooth">Bluetooth MAC Address</string>
+    <string name="spoof_item_drm">Widevine DRM Device ID</string>
+    <string name="spoof_item_gsf">Google Services Framework (GSF ID)</string>
+    <string name="spoof_item_sensor">Hardware Sensors Fingerprint</string>
+    <string name="spoof_item_settings">System Settings &amp; Native Properties</string>
+
+    <!-- Actions & UI Labels -->
+    <string name="tab_apps">التطبيقات</string>
+    <string name="tab_engine">المحرك</string>
+    <string name="tab_logs">السجلات</string>
+    <string name="tab_settings">الإعدادات</string>
+
+    <string name="search_hint">بحث في التطبيقات بالاسم أو الحزمة…</string>
+    <string name="add_app">إضافة تطبيق للسبوف</string>
+    <string name="customize_spoof">تحديد وتخصيص عناصر السبوف</string>
+    <string name="randomize_selected">توليد عشوائي للمحدد</string>
+    <string name="randomize_all">توليد شامل لكافة القيم</string>
+    <string name="select_all">تحديد الكل</string>
+    <string name="deselect_all">إلغاء التحديد</string>
+    <string name="preset_recommended">الموصى به</string>
+    <string name="preset_ids_only">المعرفات فقط</string>
+    <string name="save_and_apply">حفظ وتطبيق التغييرات</string>
+    <string name="cancel">إلغاء</string>
+    <string name="apply">تطبيق</string>
+    <string name="launch_app">تشغيل التطبيق</string>
+    <string name="clear_data">مسح بيانات التطبيق</string>
+    <string name="remove_target">إزالة من قائمة السبوف</string>
+</resources>
