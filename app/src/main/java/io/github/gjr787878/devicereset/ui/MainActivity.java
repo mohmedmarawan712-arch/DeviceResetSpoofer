@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -235,7 +236,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
 
     private void refreshScopeAndFramework() {
         backgroundPool.execute(() -> {
-            FrameworkDetector.Info fw = FrameworkDetector.detect(this);
+            FrameworkDetector.Info fw = FrameworkDetector.detect();
             boolean connected = LSPosedScopeHelper.isConnected();
             Set<String> scope = new HashSet<>();
             if (connected) {
