@@ -146,11 +146,47 @@ public class AppPickerActivity extends AppCompatActivity {
 
         backgroundPool.execute(() -> {
             PackageManager pm = getPackageManager();
-            List<ApplicationInfo> installed;
+            List<ApplicationInfo> installed = new ArrayList<>();
             try {
-                installed = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+                installed = pm.getInstalledApplications(0);
             } catch (Throwable t) {
-                installed = new ArrayList<>();
+                try {
+                    List<android.content.pm.PackageInfo> pkgs = pm.getInstalledPackages(0);
+                    for (android.content.pm.PackageInfo pi : pkgs) {
+                        if (pi.applicationInfo != null) installed.add(pi.applicationInfo);
+                    }
+                } catch (Throwable ignored) {}
+            }
+
+            if (installed == null || installed.isEmpty()) {
+                try {
+                    Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+                    mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+                    List<android.content.pm.ResolveInfo> resolves = pm.queryIntentActivities(mainIntent, 0);
+                    for (android.content.pm.ResolveInfo ri : resolves) {
+                        if (ri.activityInfo != null && ri.activityInfo.applicationInfo != null) {
+                            installed.add(ri.activityInfo.applicationInfo);
+                        }
+                    }
+                } catch (Throwable ignored) {}
+            }
+
+            if (installed == null || installed.isEmpty()) {
+                try {
+                    Process p = Runtime.getRuntime().exec("pm list packages");
+                    BufferedReader r = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    String l;
+                    while ((l = r.readLine()) != null) {
+                        if (l.startsWith("package:")) {
+                            String pkgName = l.substring(8).trim();
+                            try {
+                                installed.add(pm.getApplicationInfo(pkgName, 0));
+                            } catch (Throwable ignored) {}
+                        }
+                    }
+                    r.close();
+                    p.waitFor();
+                } catch (Throwable ignored) {}
             }
 
             Set<String> targetPkgs = Config.getTargetPackages(this);

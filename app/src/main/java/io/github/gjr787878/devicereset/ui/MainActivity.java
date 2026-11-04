@@ -618,7 +618,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("DeviceReset Spoofer")
-                .setMessage("DeviceReset Spoofer X\nVersion 4.8.1\n\n"
+                .setMessage("DeviceReset Spoofer X\nVersion 4.8.2\n\n"
                         + "Advanced LSPosed Identity Virtualizer with Granular Spoof Control.\n"
                         + "GitHub: https://github.com/mohmedmarawan712-arch/DeviceResetSpoofer")
                 .setPositiveButton("OK", null)
