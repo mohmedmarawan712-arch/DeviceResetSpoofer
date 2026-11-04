@@ -2,14 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_apps"
-        android:icon="@android:drawable/ic_menu_agenda"
+        android:icon="@drawable/ic_apps"
         android:title="@string/tab_apps" />
     <item
         android:id="@+id/nav_engine"
-        android:icon="@android:drawable/ic_menu_manage"
+        android:icon="@drawable/ic_tune"
         android:title="@string/tab_engine" />
     <item
         android:id="@+id/nav_logs"
-        android:icon="@android:drawable/ic_menu_recent_history"
+        android:icon="@drawable/ic_terminal"
         android:title="@string/tab_logs" />
 </menu>

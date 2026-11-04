@@ -116,6 +116,11 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
 
         updateSummary(holder, item);
 
+        // Card click -> Customize directly
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) listener.onCustomize(item);
+        });
+
         // Buttons
         holder.btnCustomize.setOnClickListener(v -> {
             if (listener != null) listener.onCustomize(item);
@@ -125,17 +130,22 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
             if (listener != null) listener.onQuickRandom(item);
         });
 
+        holder.btnDelete.setOnClickListener(v -> {
+            if (listener != null) listener.onRemoveTarget(item);
+        });
+
         holder.btnMore.setOnClickListener(v -> showPopupMenu(v.getContext(), holder.btnMore, item));
     }
 
     private void updateSummary(VH holder, TargetAppItem item) {
+        boolean isAr = "ar".equals(currentLang);
         if (!item.isSpoofEnabled) {
-            holder.tvSummary.setText("Disabled");
+            holder.tvSummary.setText(isAr ? "معطّل" : "Disabled");
             holder.tvSummary.setTextColor(0xFF64748B);
         } else {
             int active = item.getActiveCount();
             int total = item.getTotalCount();
-            holder.tvSummary.setText(active + "/" + total + " Active");
+            holder.tvSummary.setText(isAr ? (active + "/" + total + " مفعّل") : (active + "/" + total + " Active"));
             holder.tvSummary.setTextColor(0xFF38BDF8);
         }
     }
@@ -150,10 +160,10 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
         String titleStop = isAr ? "إيقاف إجباري" : (isZh ? "强制停止" : "Force Stop");
         String titleRemove = isAr ? "إزالة من القائمة" : (isZh ? "从列表中移除" : "Remove Target");
 
-        popup.getMenu().add(0, 1, 0, "🚀 " + titleLaunch);
-        popup.getMenu().add(0, 2, 1, "🧹 " + titleClear);
-        popup.getMenu().add(0, 3, 2, "🛑 " + titleStop);
-        popup.getMenu().add(0, 4, 3, "🗑️ " + titleRemove);
+        popup.getMenu().add(0, 1, 0, titleLaunch);
+        popup.getMenu().add(0, 2, 1, titleClear);
+        popup.getMenu().add(0, 3, 2, titleStop);
+        popup.getMenu().add(0, 4, 3, titleRemove);
 
         popup.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
@@ -190,6 +200,7 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
         final TextView tvSummary;
         final MaterialButton btnCustomize;
         final MaterialButton btnQuickRandom;
+        final MaterialButton btnDelete;
         final MaterialButton btnMore;
 
         VH(@NonNull View itemView) {
@@ -203,6 +214,7 @@ public class TargetAppAdapter extends RecyclerView.Adapter<TargetAppAdapter.VH> 
             tvSummary = itemView.findViewById(R.id.tv_active_items_summary);
             btnCustomize = itemView.findViewById(R.id.btn_customize_items);
             btnQuickRandom = itemView.findViewById(R.id.btn_quick_random);
+            btnDelete = itemView.findViewById(R.id.btn_delete_app);
             btnMore = itemView.findViewById(R.id.btn_more_menu);
         }
     }

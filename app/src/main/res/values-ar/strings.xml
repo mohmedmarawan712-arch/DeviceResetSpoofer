@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DeviceReset Spoofer</string>
+    <string name="module_description">تزييف وتخصيص معرّفات الأجهزة للتطبيقات عبر LSPosed</string>
+
+    <!-- Granular Spoof Items - Concise & Clear -->
+    <string name="spoof_item_android_id">معرف أندرويد (SSAID)</string>
+    <string name="spoof_item_ad_id">معرف الإعلانات (AAID)</string>
+    <string name="spoof_item_telephony">بيانات الهاتف (IMEI/SIM)</string>
+    <string name="spoof_item_carrier">مشغل الشبكة (Carrier)</string>
+    <string name="spoof_item_build">طراز الجهاز (Build)</string>
+    <string name="spoof_item_wifi">عنوان الواي فاي (Wi-Fi MAC)</string>
+    <string name="spoof_item_bluetooth">عنوان البلوتوث (BT MAC)</string>
+    <string name="spoof_item_drm">معرف الحماية (Widevine DRM)</string>
+    <string name="spoof_item_gsf">خدمات جوجل (GSF ID)</string>
+    <string name="spoof_item_sensor">المستشعرات (Sensors)</string>
+    <string name="spoof_item_settings">إعدادات النظام (Settings/Native)</string>
+
+    <!-- Navigation & Tabs -->
+    <string name="tab_apps">التطبيقات</string>
+    <string name="tab_engine">المحرك</string>
+    <string name="tab_logs">السجلات</string>
+
+    <!-- Actions & Buttons -->
+    <string name="search_hint">بحث في التطبيقات…</string>
+    <string name="add_app">إضافة تطبيق</string>
+    <string name="customize_spoof">تخصيص الهوية</string>
+    <string name="randomize_selected">توليد المحدد</string>
+    <string name="randomize_all">توليد الكل</string>
+    <string name="select_all">تحديد الكل</string>
+    <string name="deselect_all">إلغاء التحديد</string>
+    <string name="preset_recommended">الموصى به</string>
+    <string name="preset_ids_only">المعرفات فقط</string>
+    <string name="save_and_apply">حفظ وتطبيق</string>
+    <string name="cancel">إلغاء</string>
+    <string name="apply">تطبيق</string>
+    <string name="launch_app">تشغيل</string>
+    <string name="clear_data">مسح البيانات</string>
+    <string name="remove_target">إزالة</string>
+
+    <!-- Statuses -->
+    <string name="status_connected">متصل بالخدمة</string>
+    <string name="status_not_connected">غير متصل</string>
+    <string name="status_in_scope">في النطاق</string>
+    <string name="status_not_in_scope">خارج النطاق</string>
+    <string name="empty_apps_title">لا توجد تطبيقات مستهدفة</string>
+    <string name="empty_apps_desc">اضغط أدناه لاختيار التطبيقات التي تريد تزييف معرّفاتها.</string>
+</resources>

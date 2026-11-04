@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
             btnRefresh.setOnClickListener(v -> {
                 refreshScopeAndFramework();
                 loadTargetApps();
-                Toast.makeText(this, isAr() ? "تم تحديث البيانات 🔄" : "Refreshed 🔄", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, isAr() ? "تم تحديث البيانات" : "Refreshed", Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
             Config.syncScopeToLSPosed(this, targets);
             mainHandler.post(() -> {
                 refreshScopeAndFramework();
-                Toast.makeText(this, isAr() ? "اكتملت مزامنة النطاق بنجاح ✓" : "Scope sync complete ✓", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, isAr() ? "اكتملت مزامنة النطاق بنجاح" : "Scope sync complete", Toast.LENGTH_SHORT).show();
             });
         });
     }
@@ -374,7 +374,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
                     writeSentinelToApp(item.packageName, updatedIdentity.toJson());
                     adapter.notifyDataSetChanged();
 
-                    Snackbar.make(rvTargetApps, isAr() ? "تم حفظ إعدادات السبوف بنجاح ✓" : "Spoof settings applied ✓",
+                    Snackbar.make(rvTargetApps, isAr() ? "تم حفظ إعدادات السبوف بنجاح" : "Spoof settings applied",
                             Snackbar.LENGTH_SHORT).show();
                 }
         );
@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
         writeSentinelToApp(item.packageName, item.identity.toJson());
         adapter.notifyDataSetChanged();
 
-        Toast.makeText(this, (isAr() ? "تم توليد قيم عشوائية جديدة: " : "Generated fresh identity for: ") + item.appName + " 🎲",
+        Toast.makeText(this, (isAr() ? "تم توليد قيم عشوائية جديدة: " : "Generated fresh identity for: ") + item.appName,
                 Toast.LENGTH_SHORT).show();
     }
 
@@ -425,7 +425,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
                             writeSentinelToApp(item.packageName, item.identity.toJson());
                         }
                         mainHandler.post(() -> {
-                            Toast.makeText(this, isAr() ? "تم مسح بيانات التطبيق بنجاح 🧹" : "App data cleared 🧹", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, isAr() ? "تم مسح بيانات التطبيق بنجاح" : "App data cleared", Toast.LENGTH_SHORT).show();
                         });
                     });
                 })
@@ -618,7 +618,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("DeviceReset Spoofer")
-                .setMessage("DeviceReset Spoofer X\nVersion 4.8.0\n\n"
+                .setMessage("DeviceReset Spoofer X\nVersion 4.8.1\n\n"
                         + "Advanced LSPosed Identity Virtualizer with Granular Spoof Control.\n"
                         + "GitHub: https://github.com/mohmedmarawan712-arch/DeviceResetSpoofer")
                 .setPositiveButton("OK", null)

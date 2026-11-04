@@ -157,13 +157,20 @@ public class CustomizeSpoofDialog extends Dialog {
         if (s != null) s.setChecked(checked);
     }
 
+    private boolean isAr() {
+        return "ar".equals(currentLang);
+    }
+
     private void populateCategories() {
         LinearLayout container = findViewById(R.id.dlg_items_container);
         container.removeAllViews();
 
+        boolean ar = isAr();
+
         // 1. Android ID
-        addCategoryCard(container, Identity.KEY_ANDROID_ID, "📱 " + getStr(R.string.spoof_item_android_id),
-                "SSAID - Android 64-bit unique hex ID", () -> {
+        addCategoryCard(container, Identity.KEY_ANDROID_ID, R.drawable.ic_phone,
+                getStr(R.string.spoof_item_android_id),
+                ar ? "معرف أندرويد الفريد SSAID (64-bit Hex)" : "SSAID - Android 64-bit unique hex ID", () -> {
                     etAndroidId = addInputField(fieldsContainerMap.get(Identity.KEY_ANDROID_ID), "Android ID (Hex)", workingIdentity.androidId);
                 }, () -> {
                     IdentityGenerator.randomizeItem(workingIdentity, Identity.KEY_ANDROID_ID);
@@ -171,8 +178,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 2. Advertising ID
-        addCategoryCard(container, Identity.KEY_AD_ID, "📢 " + getStr(R.string.spoof_item_ad_id),
-                "Google Play Services AAID & AppSet ID", () -> {
+        addCategoryCard(container, Identity.KEY_AD_ID, R.drawable.ic_ads,
+                getStr(R.string.spoof_item_ad_id),
+                ar ? "معرف إعلانات Google Play Services و AppSet ID" : "Google Play Services AAID & AppSet ID", () -> {
                     etAdId = addInputField(fieldsContainerMap.get(Identity.KEY_AD_ID), "AAID (UUID)", workingIdentity.advertisingId);
                     etAppSetId = addInputField(fieldsContainerMap.get(Identity.KEY_AD_ID), "AppSet ID (UUID)", workingIdentity.appSetId);
                 }, () -> {
@@ -182,8 +190,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 3. Telephony
-        addCategoryCard(container, Identity.KEY_TELEPHONY, "📶 " + getStr(R.string.spoof_item_telephony),
-                "IMEI (Luhn valid), MEID, IMSI, ICCID, Serial", () -> {
+        addCategoryCard(container, Identity.KEY_TELEPHONY, R.drawable.ic_sim,
+                getStr(R.string.spoof_item_telephony),
+                ar ? "IMEI / MEID / IMSI / ICCID / الرقم التسلسلي" : "IMEI (Luhn valid), MEID, IMSI, ICCID, Serial", () -> {
                     etImei = addInputField(fieldsContainerMap.get(Identity.KEY_TELEPHONY), "IMEI", workingIdentity.imei);
                     etMeid = addInputField(fieldsContainerMap.get(Identity.KEY_TELEPHONY), "MEID", workingIdentity.meid);
                     etSerial = addInputField(fieldsContainerMap.get(Identity.KEY_TELEPHONY), "Serial Number", workingIdentity.serial);
@@ -199,11 +208,14 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 4. Carrier
-        addCategoryCard(container, Identity.KEY_CARRIER, "🏢 " + getStr(R.string.spoof_item_carrier),
-                "Network & SIM Operator, MCC/MNC, Country ISO", () -> {
+        addCategoryCard(container, Identity.KEY_CARRIER, R.drawable.ic_tower,
+                getStr(R.string.spoof_item_carrier),
+                ar ? "مشغل الشبكة والشريحة ورمز MCC/MNC" : "Network & SIM Operator, MCC/MNC, Country ISO", () -> {
                     LinearLayout fields = fieldsContainerMap.get(Identity.KEY_CARRIER);
                     MaterialButton btnPickCarrier = new MaterialButton(getContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
-                    btnPickCarrier.setText("🌐 Select Carrier Profile");
+                    btnPickCarrier.setIconResource(R.drawable.ic_tower);
+                    btnPickCarrier.setIconGravity(MaterialButton.ICON_GRAVITY_TEXT_START);
+                    btnPickCarrier.setText(ar ? "اختيار مشغل شبكة" : "Select Carrier Profile");
                     btnPickCarrier.setCornerRadius(10);
                     btnPickCarrier.setOnClickListener(v -> showCarrierSelector());
                     fields.addView(btnPickCarrier);
@@ -217,11 +229,14 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 5. Build & Hardware
-        addCategoryCard(container, Identity.KEY_BUILD, "💻 " + getStr(R.string.spoof_item_build),
-                "Brand, Model, Product, Hardware, Fingerprint", () -> {
+        addCategoryCard(container, Identity.KEY_BUILD, R.drawable.ic_device,
+                getStr(R.string.spoof_item_build),
+                ar ? "الشركة المصنعة، الطراز، البصمة التعريفية" : "Brand, Model, Product, Hardware, Fingerprint", () -> {
                     LinearLayout fields = fieldsContainerMap.get(Identity.KEY_BUILD);
                     MaterialButton btnPickDevice = new MaterialButton(getContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
-                    btnPickDevice.setText("📱 Select Device Model Preset");
+                    btnPickDevice.setIconResource(R.drawable.ic_device);
+                    btnPickDevice.setIconGravity(MaterialButton.ICON_GRAVITY_TEXT_START);
+                    btnPickDevice.setText(ar ? "اختيار طراز جاهز" : "Select Device Model Preset");
                     btnPickDevice.setCornerRadius(10);
                     btnPickDevice.setOnClickListener(v -> showDevicePresetSelector());
                     fields.addView(btnPickDevice);
@@ -237,8 +252,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 6. Wi-Fi MAC
-        addCategoryCard(container, Identity.KEY_WIFI, "🌐 " + getStr(R.string.spoof_item_wifi),
-                "Standard Wi-Fi Interface MAC Address", () -> {
+        addCategoryCard(container, Identity.KEY_WIFI, R.drawable.ic_wifi,
+                getStr(R.string.spoof_item_wifi),
+                ar ? "عنوان MAC لشبكة الواي فاي" : "Standard Wi-Fi Interface MAC Address", () -> {
                     etWifiMac = addInputField(fieldsContainerMap.get(Identity.KEY_WIFI), "Wi-Fi MAC", workingIdentity.macAddress);
                 }, () -> {
                     IdentityGenerator.randomizeItem(workingIdentity, Identity.KEY_WIFI);
@@ -246,8 +262,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 7. Bluetooth MAC
-        addCategoryCard(container, Identity.KEY_BLUETOOTH, "🔵 " + getStr(R.string.spoof_item_bluetooth),
-                "Bluetooth Adapter Hardware Address", () -> {
+        addCategoryCard(container, Identity.KEY_BLUETOOTH, R.drawable.ic_bluetooth,
+                getStr(R.string.spoof_item_bluetooth),
+                ar ? "عنوان MAC لمحول البلوتوث" : "Bluetooth Adapter Hardware Address", () -> {
                     etBtMac = addInputField(fieldsContainerMap.get(Identity.KEY_BLUETOOTH), "Bluetooth MAC", workingIdentity.bluetoothMac);
                 }, () -> {
                     IdentityGenerator.randomizeItem(workingIdentity, Identity.KEY_BLUETOOTH);
@@ -255,8 +272,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 8. DRM ID
-        addCategoryCard(container, Identity.KEY_DRM, "🔒 " + getStr(R.string.spoof_item_drm),
-                "Widevine DRM 32-Byte Hardware Unique ID", () -> {
+        addCategoryCard(container, Identity.KEY_DRM, R.drawable.ic_lock,
+                getStr(R.string.spoof_item_drm),
+                ar ? "معرف الحماية Widevine DRM الفريد (32-Byte)" : "Widevine DRM 32-Byte Hardware Unique ID", () -> {
                     etDrmId = addInputField(fieldsContainerMap.get(Identity.KEY_DRM), "DRM Unique ID (Hex)", workingIdentity.drmId);
                 }, () -> {
                     IdentityGenerator.randomizeItem(workingIdentity, Identity.KEY_DRM);
@@ -264,8 +282,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 9. GSF ID
-        addCategoryCard(container, Identity.KEY_GSF, "🔍 " + getStr(R.string.spoof_item_gsf),
-                "Google Services Framework Account ID", () -> {
+        addCategoryCard(container, Identity.KEY_GSF, R.drawable.ic_google,
+                getStr(R.string.spoof_item_gsf),
+                ar ? "معرف خدمات إطار عمل جوجل (GSF ID)" : "Google Services Framework Account ID", () -> {
                     etGsfId = addInputField(fieldsContainerMap.get(Identity.KEY_GSF), "GSF ID (Hex)", workingIdentity.gsfId);
                 }, () -> {
                     IdentityGenerator.randomizeItem(workingIdentity, Identity.KEY_GSF);
@@ -273,8 +292,9 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 10. Sensors
-        addCategoryCard(container, Identity.KEY_SENSOR, "🧭 " + getStr(R.string.spoof_item_sensor),
-                "Hardware Sensor Vendor, Name & Version", () -> {
+        addCategoryCard(container, Identity.KEY_SENSOR, R.drawable.ic_sensor,
+                getStr(R.string.spoof_item_sensor),
+                ar ? "بيانات مستشعرات الجهاز الحركية والبيئية" : "Hardware Sensor Vendor, Name & Version", () -> {
                     etSensorName = addInputField(fieldsContainerMap.get(Identity.KEY_SENSOR), "Sensor Name", workingIdentity.sensorName);
                 }, () -> {
                     IdentityGenerator.randomizeItem(workingIdentity, Identity.KEY_SENSOR);
@@ -282,11 +302,12 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 11. System Settings & Native Props
-        addCategoryCard(container, Identity.KEY_SETTINGS, "⚙️ " + getStr(R.string.spoof_item_settings),
-                "System.Global Settings & Native PLT Property Hook", null, null);
+        addCategoryCard(container, Identity.KEY_SETTINGS, R.drawable.ic_settings,
+                getStr(R.string.spoof_item_settings),
+                ar ? "إعدادات النظام العامة وخصائص PLT Native" : "System.Global Settings & Native PLT Property Hook", null, null);
     }
 
-    private void addCategoryCard(LinearLayout parent, String itemKey, String title,
+    private void addCategoryCard(LinearLayout parent, String itemKey, int iconResId, String title,
                                  String subtitle, Runnable setupFields, Runnable onRandomize) {
         MaterialCardView card = new MaterialCardView(getContext());
         card.setCardBackgroundColor(0xFF1E273E);
@@ -304,10 +325,20 @@ public class CustomizeSpoofDialog extends Dialog {
         int pad = (int) (14 * getContext().getResources().getDisplayMetrics().density);
         cardLayout.setPadding(pad, pad, pad, pad);
 
-        // Header Row: Title & Switch
+        // Header Row: Icon + Title/Sub + [Dice] + Switch
         LinearLayout headerRow = new LinearLayout(getContext());
         headerRow.setOrientation(LinearLayout.HORIZONTAL);
         headerRow.setGravity(android.view.Gravity.CENTER_VERTICAL);
+
+        ImageView ivIcon = new ImageView(getContext());
+        ivIcon.setImageResource(iconResId);
+        ivIcon.setColorFilter(0xFF38BDF8);
+        int iconSize = (int) (24 * getContext().getResources().getDisplayMetrics().density);
+        LinearLayout.LayoutParams ilp = new LinearLayout.LayoutParams(iconSize, iconSize);
+        ilp.rightMargin = (int) (10 * getContext().getResources().getDisplayMetrics().density);
+        ilp.leftMargin = (int) (2 * getContext().getResources().getDisplayMetrics().density);
+        ivIcon.setLayoutParams(ilp);
+        headerRow.addView(ivIcon);
 
         LinearLayout textCol = new LinearLayout(getContext());
         textCol.setOrientation(LinearLayout.VERTICAL);
@@ -332,12 +363,16 @@ public class CustomizeSpoofDialog extends Dialog {
 
         if (onRandomize != null) {
             MaterialButton btnDice = new MaterialButton(getContext(), null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
-            btnDice.setText("🎲");
-            btnDice.setTextSize(14);
+            btnDice.setIconResource(R.drawable.ic_shuffle);
+            btnDice.setIconTint(android.content.res.ColorStateList.valueOf(0xFF38BDF8));
+            btnDice.setIconGravity(MaterialButton.ICON_GRAVITY_TEXT_START);
+            btnDice.setIconPadding(0);
             btnDice.setCornerRadius(10);
-            btnDice.setLayoutParams(new LinearLayout.LayoutParams(
-                    (int) (44 * getContext().getResources().getDisplayMetrics().density),
-                    (int) (38 * getContext().getResources().getDisplayMetrics().density)));
+            int diceSize = (int) (38 * getContext().getResources().getDisplayMetrics().density);
+            LinearLayout.LayoutParams dlp = new LinearLayout.LayoutParams(diceSize, diceSize);
+            dlp.rightMargin = (int) (6 * getContext().getResources().getDisplayMetrics().density);
+            dlp.leftMargin = (int) (6 * getContext().getResources().getDisplayMetrics().density);
+            btnDice.setLayoutParams(dlp);
             btnDice.setOnClickListener(v -> onRandomize.run());
             headerRow.addView(btnDice);
         }
@@ -399,13 +434,13 @@ public class CustomizeSpoofDialog extends Dialog {
         }
 
         new AlertDialog.Builder(getContext())
-                .setTitle("Select Device Preset")
+                .setTitle(isAr() ? "اختر طراز الجهاز" : "Select Device Preset")
                 .setItems(names, (dialog, which) -> {
                     IdentityGenerator.applyDeviceProfile(workingIdentity, which);
                     if (etBrand != null) etBrand.setText(workingIdentity.brand);
                     if (etModel != null) etModel.setText(workingIdentity.model);
                     if (etFingerprint != null) etFingerprint.setText(workingIdentity.fingerprint);
-                    Toast.makeText(getContext(), "Selected: " + names[which], Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), (isAr() ? "تم الاختيار: " : "Selected: ") + names[which], Toast.LENGTH_SHORT).show();
                 })
                 .show();
     }
@@ -418,12 +453,12 @@ public class CustomizeSpoofDialog extends Dialog {
         }
 
         new AlertDialog.Builder(getContext())
-                .setTitle("Select Carrier Profile")
+                .setTitle(isAr() ? "اختر مشغل الشبكة" : "Select Carrier Profile")
                 .setItems(names, (dialog, which) -> {
                     IdentityGenerator.applyCarrierProfile(workingIdentity, which);
                     if (etCarrierName != null) etCarrierName.setText(workingIdentity.networkOperatorName);
                     if (etCarrierCode != null) etCarrierCode.setText(workingIdentity.networkOperator);
-                    Toast.makeText(getContext(), "Selected: " + carriers[which][1], Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), (isAr() ? "تم الاختيار: " : "Selected: ") + carriers[which][1], Toast.LENGTH_SHORT).show();
                 })
                 .show();
     }
@@ -440,7 +475,7 @@ public class CustomizeSpoofDialog extends Dialog {
                 }
             }
             refreshAllInputFields();
-            Toast.makeText(getContext(), "Selected items refreshed! 🎲", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), isAr() ? "تم تحديث العناصر المحددة بنجاح" : "Selected items refreshed", Toast.LENGTH_SHORT).show();
         });
 
         btnSave.setOnClickListener(v -> {

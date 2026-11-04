@@ -55,7 +55,7 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_popup_sync"
+                    android:src="@drawable/ic_refresh"
                     app:tint="@color/text_secondary"
                     android:contentDescription="Refresh"/>
 
@@ -64,7 +64,7 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_preferences"
+                    android:src="@drawable/ic_language"
                     app:tint="@color/text_secondary"
                     android:contentDescription="Language"/>
 
@@ -73,7 +73,7 @@
                     android:layout_width="38dp"
                     android:layout_height="38dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_info_details"
+                    android:src="@drawable/ic_info"
                     app:tint="@color/text_secondary"
                     android:contentDescription="About"/>
             </LinearLayout>
@@ -188,7 +188,7 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    android:src="@drawable/ic_close"
                     app:tint="@color/text_tertiary"
                     android:visibility="gone"
                     android:contentDescription="Clear"/>
@@ -213,11 +213,12 @@
                 android:padding="32dp"
                 android:visibility="gone">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="🛡️"
-                    android:textSize="48sp"/>
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_apps"
+                    app:tint="@color/primary"
+                    android:contentDescription="@string/app_name"/>
 
                 <TextView
                     android:id="@+id/tv_empty_title"
@@ -226,8 +227,8 @@
                     android:textColor="@color/text_primary"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    android:layout_marginTop="12dp"
-                    android:text="No Target Apps"/>
+                    android:layout_marginTop="16dp"
+                    android:text="@string/empty_apps_title"/>
 
                 <TextView
                     android:id="@+id/tv_empty_subtitle"
@@ -237,14 +238,17 @@
                     android:textSize="13sp"
                     android:gravity="center"
                     android:layout_marginTop="6dp"
-                    android:text="Add applications to intercept and customize their device identifiers."/>
+                    android:text="@string/empty_apps_desc"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_empty_add"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/add_app"
-                    android:layout_marginTop="16dp"
+                    app:icon="@drawable/ic_add"
+                    app:iconTint="@color/background"
+                    app:iconGravity="textStart"
+                    android:layout_marginTop="18dp"
                     app:cornerRadius="12dp"/>
             </LinearLayout>
         </LinearLayout>
@@ -335,7 +339,7 @@
         android:textColor="@color/background"
         android:textStyle="bold"
         app:backgroundTint="@color/primary"
-        app:icon="@android:drawable/ic_input_add"
+        app:icon="@drawable/ic_add"
         app:iconTint="@color/background"/>
 
     <!-- Bottom Navigation Bar -->

@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardCornerRadius="14dp"
     app:cardElevation="2dp"
     app:strokeColor="@color/card_stroke"
@@ -54,13 +57,25 @@
                 android:layout_marginTop="2dp"/>
         </LinearLayout>
 
-        <!-- Status dot -->
-        <View
-            android:id="@+id/status_dot"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:background="@drawable/status_dot"
-            android:layout_marginStart="10dp"/>
+        <!-- Action / Status Indicator Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_item_action"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:text="@string/add_app"
+            android:textSize="11sp"
+            android:textColor="@color/primary"
+            app:icon="@drawable/ic_add"
+            app:iconTint="@color/primary"
+            app:iconSize="14dp"
+            app:iconGravity="textStart"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1dp"
+            app:cornerRadius="18dp"
+            android:layout_marginStart="8dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"/>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

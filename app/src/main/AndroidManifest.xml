@@ -64,7 +64,7 @@
         <activity
             android:name=".ui.AppPickerActivity"
             android:exported="false"
-            android:label="选择应用" />
+            android:label="@string/add_app" />
     </application>
 
 </manifest>
