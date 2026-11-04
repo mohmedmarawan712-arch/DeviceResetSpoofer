@@ -196,10 +196,6 @@ public class AppPickerActivity extends AppCompatActivity {
                 List<String> s = LSPosedScopeHelper.getScope();
                 if (s != null) scopePkgs.addAll(s);
             }
-            Config.ScopeDbState dbState = Config.readLSPosedDbState(this);
-            if (dbState != null && dbState.targets != null) {
-                scopePkgs.addAll(dbState.targets);
-            }
 
             String myPkg = getPackageName();
             List<AppItem> items = new ArrayList<>();

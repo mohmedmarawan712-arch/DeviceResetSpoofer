@@ -307,6 +307,19 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
             Set<String> all = new HashSet<>(pkgs);
             all.addAll(idPkgs);
 
+            // Automatically import apps that the user enabled in LSPosed Scope
+            synchronized (scopeCache) {
+                for (String sPkg : scopeCache) {
+                    if (sPkg != null && !sPkg.isEmpty()
+                            && !sPkg.equals(getPackageName())
+                            && !sPkg.equals("android")
+                            && !sPkg.equals("system")) {
+                        all.add(sPkg);
+                        Config.addTargetPackage(this, sPkg);
+                    }
+                }
+            }
+
             PackageManager pm = getPackageManager();
             List<TargetAppItem> list = new ArrayList<>();
 
@@ -322,12 +335,18 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
 
                 String json = Config.getIdentity(this, pkg);
                 Identity id = (json != null && json.startsWith("{")) ? Identity.fromJson(json) : null;
+                if (id == null) {
+                    id = IdentityGenerator.generateRandom();
+                    Config.setIdentity(this, pkg, id.toJson());
+                    writeSentinelToApp(pkg, id.toJson());
+                }
+
                 boolean inScope;
                 synchronized (scopeCache) {
                     inScope = scopeCache.contains(pkg);
                 }
 
-                boolean isSpoofEnabled = Config.isTargetPackage(this, pkg) && id != null && id.hasAnyActiveField();
+                boolean isSpoofEnabled = Config.isTargetPackage(this, pkg);
                 list.add(new TargetAppItem(pkg, label, icon, inScope, isSpoofEnabled, id));
             }
 
@@ -618,7 +637,7 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
     private void showAboutDialog() {
         new AlertDialog.Builder(this)
                 .setTitle("DeviceReset Spoofer")
-                .setMessage("DeviceReset Spoofer X\nVersion 4.8.2\n\n"
+                .setMessage("DeviceReset Spoofer X\nVersion 4.8.3\n\n"
                         + "Advanced LSPosed Identity Virtualizer with Granular Spoof Control.\n"
                         + "GitHub: https://github.com/mohmedmarawan712-arch/DeviceResetSpoofer")
                 .setPositiveButton("OK", null)
