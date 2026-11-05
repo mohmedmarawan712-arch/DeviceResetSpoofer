@@ -7,8 +7,10 @@
          才能建立 service 连接（getScope/requestScope 可用，主页作用域状态真实显示）。
          全局注入 + 应用内过滤后，无需再在 LSPosed 中手动勾选任何目标应用。 -->
     <string-array name="xposed_scope">
-        <item>system</item>
         <item>android</item>
+        <item>system</item>
+        <item>com.android.providers.settings</item>
+        <item>com.android.phone</item>
         <item>io.github.gjr787878.devicereset</item>
     </string-array>
 </resources>

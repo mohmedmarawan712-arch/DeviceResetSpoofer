@@ -71,11 +71,30 @@ public class IdentityGenerator {
          "Nothing/Spacewar/Spacewar:14/UKQ1.230924.001/2.5.5:user/release-keys"},
         {"ASUS", "AI2401", "ASUS", "AI2401", "WW_AI2401", "qcom",
          "asus/WW_AI2401/AI2401:14/UKQ1.230804.001/34.0208.2401.0:user/release-keys"},
+        {"Samsung", "SM-S928B", "samsung", "e3q", "e3qxxx", "qcom",
+         "samsung/e3qxxx/e3q:14/UP1A.231005.007/S928BXXU1AXB5:user/release-keys"},
+        {"Google", "Pixel 9 Pro XL", "Google", "komodo", "komodo", "zuma",
+         "google/komodo/komodo:15/AP3A.241005.015/12345678:user/release-keys"},
+        {"Xiaomi", "24030PN60G", "Xiaomi", "aurora", "aurora_global", "qcom",
+         "Xiaomi/aurora_global/aurora:14/UKQ1.230804.001/V816.0.4.0.UNAMIXM:user/release-keys"},
+        {"HONOR", "BVL-AN16", "HONOR", "BVL", "BVL-AN16", "qcom",
+         "HONOR/BVL-AN16/BVL:14/HONORBVL-AN16/8.0.0.125:user/release-keys"},
+        {"samsung", "SM-F956B", "samsung", "q6a", "q6axxx", "qcom",
+         "samsung/q6axxx/q6a:14/UP1A.231005.007/F956BXXU1AXF3:user/release-keys"},
     };
 
     // 运营商信息池（20+）
     private static final String[][] CARRIER_PROFILES = {
         // {MCCMNC, OPERATOR_NAME, COUNTRY_ISO}
+        {"60202", "Vodafone EG", "eg"},
+        {"60201", "Orange EG", "eg"},
+        {"60203", "Etisalat Misr", "eg"},
+        {"60204", "WE Egypt", "eg"},
+        {"42001", "stc KSA", "sa"},
+        {"42003", "Mobily KSA", "sa"},
+        {"42004", "Zain KSA", "sa"},
+        {"42402", "e& (Etisalat UAE)", "ae"},
+        {"42403", "du UAE", "ae"},
         {"46001", "China Mobile", "cn"},
         {"46006", "China Unicom", "cn"},
         {"46003", "China Telecom", "cn"},

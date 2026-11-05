@@ -131,15 +131,21 @@ public class CustomizeSpoofDialog extends Dialog {
         btnRec.setOnClickListener(v -> {
             setAllSwitches(false);
             setSwitch(Identity.KEY_ANDROID_ID, true);
+            setSwitch(Identity.KEY_DRM, true);
             setSwitch(Identity.KEY_TELEPHONY, true);
+            setSwitch(Identity.KEY_CARRIER, true);
             setSwitch(Identity.KEY_BUILD, true);
             setSwitch(Identity.KEY_WIFI, true);
-            setSwitch(Identity.KEY_CARRIER, true);
+            setSwitch(Identity.KEY_BLUETOOTH, true);
+            setSwitch(Identity.KEY_GSF, true);
+            setSwitch(Identity.KEY_AD_ID, true);
+            setSwitch(Identity.KEY_SETTINGS, true);
         });
 
         btnIds.setOnClickListener(v -> {
             setAllSwitches(false);
             setSwitch(Identity.KEY_ANDROID_ID, true);
+            setSwitch(Identity.KEY_DRM, true);
             setSwitch(Identity.KEY_AD_ID, true);
             setSwitch(Identity.KEY_TELEPHONY, true);
             setSwitch(Identity.KEY_GSF, true);
@@ -167,8 +173,8 @@ public class CustomizeSpoofDialog extends Dialog {
 
         boolean ar = isAr();
 
-        // 1. Android ID
-        addCategoryCard(container, Identity.KEY_ANDROID_ID, R.drawable.ic_phone,
+        // 1. Android ID (SSAID)
+        addCategoryCard(container, Identity.KEY_ANDROID_ID, R.drawable.ic_fingerprint,
                 getStr(R.string.spoof_item_android_id),
                 ar ? "معرف أندرويد الفريد SSAID (64-bit Hex)" : "SSAID - Android 64-bit unique hex ID", () -> {
                     etAndroidId = addInputField(fieldsContainerMap.get(Identity.KEY_ANDROID_ID), "Android ID (Hex)", workingIdentity.androidId);
@@ -272,7 +278,7 @@ public class CustomizeSpoofDialog extends Dialog {
                 });
 
         // 8. DRM ID
-        addCategoryCard(container, Identity.KEY_DRM, R.drawable.ic_lock,
+        addCategoryCard(container, Identity.KEY_DRM, R.drawable.ic_shield_check,
                 getStr(R.string.spoof_item_drm),
                 ar ? "معرف الحماية Widevine DRM الفريد (32-Byte)" : "Widevine DRM 32-Byte Hardware Unique ID", () -> {
                     etDrmId = addInputField(fieldsContainerMap.get(Identity.KEY_DRM), "DRM Unique ID (Hex)", workingIdentity.drmId);
