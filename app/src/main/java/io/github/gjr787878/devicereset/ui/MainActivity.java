@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -779,13 +780,13 @@ public class MainActivity extends AppCompatActivity implements TargetAppAdapter.
                         sb.append("     Android ID (SSAID): ").append(item.identity.androidId != null ? item.identity.androidId : "تلقائي")
                                 .append(item.identity.isItemEnabled(Identity.KEY_ANDROID_ID) ? " [نشط]" : " [معطل]").append("\n");
                         sb.append("     IMEI: ").append(item.identity.imei != null ? item.identity.imei : "تلقائي")
-                                .append(item.identity.isItemEnabled(Identity.KEY_IMEI) ? " [نشط]" : " [معطل]").append("\n");
+                                .append(item.identity.isItemEnabled(Identity.KEY_TELEPHONY) ? " [نشط]" : " [معطل]").append("\n");
                         sb.append("     شركة الاتصالات: ").append(item.identity.networkOperatorName != null ? item.identity.networkOperatorName : "تلقائي")
                                 .append(item.identity.isItemEnabled(Identity.KEY_CARRIER) ? " [نشط]" : " [معطل]").append("\n");
                         sb.append("     عنوان Wi-Fi MAC: ").append(item.identity.macAddress != null ? item.identity.macAddress : "تلقائي")
-                                .append(item.identity.isItemEnabled(Identity.KEY_WIFI_MAC) ? " [نشط]" : " [معطل]").append("\n");
-                        sb.append("     DRM Device ID: ").append(item.identity.drmDeviceId != null ? item.identity.drmDeviceId : "تلقائي")
-                                .append(item.identity.isItemEnabled(Identity.KEY_MEDIA_DRM) ? " [نشط]" : " [معطل]").append("\n");
+                                .append(item.identity.isItemEnabled(Identity.KEY_WIFI) ? " [نشط]" : " [معطل]").append("\n");
+                        sb.append("     DRM Device ID: ").append(item.identity.drmId != null ? item.identity.drmId : "تلقائي")
+                                .append(item.identity.isItemEnabled(Identity.KEY_DRM) ? " [نشط]" : " [معطل]").append("\n");
                     }
                 }
                 sb.append("--------------------------------------------------\n\n");
